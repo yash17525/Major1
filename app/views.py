@@ -34,7 +34,7 @@ def fetch_posts():
                        reverse=True)
 
 
-@app.route('/')
+@app.route('/index')
 def index():
     fetch_posts()
     return render_template('index.html',
@@ -43,7 +43,6 @@ def index():
                            posts=posts,
                            node_address=CONNECTED_NODE_ADDRESS,
                            readable_time=timestamp_to_string)
-
 
 @app.route('/submit', methods=['POST'])
 def submit_textarea():
@@ -66,6 +65,104 @@ def submit_textarea():
                   headers={'Content-type': 'application/json'})
 
     return redirect('/')
+
+# **************************** ******************* *********************** ***************
+@app.route('/')
+def home():
+    return render_template('home.html',
+                           title='YourNet: Decentralized '
+                                 'content sharing',
+                           )
+
+@app.route('/farmer')
+def farmer():
+    return render_template('farmer.html',
+                           title='Blockchain: For '
+                                 'the farmers',
+                           node_address=CONNECTED_NODE_ADDRESS,
+                           readable_time=timestamp_to_string)
+
+@app.route('/refiners')
+def refiners():
+    return render_template('refiner.html',
+                           title='Blockchain: For '
+                                 'the refiners',
+                           node_address=CONNECTED_NODE_ADDRESS,
+                           readable_time=timestamp_to_string)
+
+@app.route('/wholesalers')
+def wholesalers():
+    return render_template('wholesaler.html',
+                           title='Blockchain: For '
+                                 'the wholesalers',
+                           node_address=CONNECTED_NODE_ADDRESS,
+                           readable_time=timestamp_to_string)
+
+
+@app.route('/submitFarmer', methods=['POST'])
+def submitFarmer():
+    """
+    Endpoint to create a new transaction via our application.
+    """
+    post_content = request.form["content"]
+    farmer_ID = request.form["farmer_ID"]
+
+    post_object = {
+        'Farmer_ID': farmer_ID,
+        'content': post_content,
+    }
+
+    new_tx_address = "{}/new_transaction".format(CONNECTED_NODE_ADDRESS)
+    requests.post(new_tx_address,
+                  json=post_object,
+                  headers={'Content-type': 'application/json'})
+
+    return redirect('/')
+
+
+@app.route('/submitRefiner', methods=['POST'])
+def submitRefiner():
+    """
+    Endpoint to create a new transaction via our application.
+    """
+    post_content = request.form["content"]
+    refiner_ID = request.form["refiner_ID"]
+
+    post_object = {
+        'Refiner_ID': refiner_ID,
+        'content': post_content,
+    }
+
+    new_tx_address = "{}/new_transaction".format(CONNECTED_NODE_ADDRESS)
+    requests.post(new_tx_address,
+                  json=post_object,
+                  headers={'Content-type': 'application/json'})
+
+    return redirect('/')
+
+
+@app.route('/submitWholeSaler', methods=['POST'])
+def submitWholeSaler():
+    """
+    Endpoint to create a new transaction via our application.
+    """
+    post_content = request.form["content"]
+    WholeSaler_ID = request.form["WholeSaler_ID"]
+
+    post_object = {
+        'WholeSaler_ID': WholeSaler_ID,
+        'content': post_content,
+    }
+
+    new_tx_address = "{}/new_transaction".format(CONNECTED_NODE_ADDRESS)
+    requests.post(new_tx_address,
+                  json=post_object,
+                  headers={'Content-type': 'application/json'})
+
+    return redirect('/')
+
+
+
 
 
 def timestamp_to_string(epoch_time):
