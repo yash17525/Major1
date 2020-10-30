@@ -106,6 +106,7 @@ def submitFarmer():
     """
     post_content = request.form["content"]
     farmer_ID = request.form["farmer_ID"]
+    field3 = request.form('field3')
 
     post_object = {
         'Farmer_ID': farmer_ID,
