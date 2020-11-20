@@ -5,7 +5,7 @@ import time
 from flask import Flask, request
 import requests
 
-from api import app
+from api import app, db
 from api import models
 
 
@@ -65,7 +65,18 @@ class Blockchain:
 
         block.hash = proof
         self.chain.append(block)
+        product_number = self.get_product_number(block)
+        p = models.Product(product_id = product_number,chain_index = len(self.chain) - 1)
+        db.session.add(p)
+        db.session.commit()
+        print(models.Product.query.all())
         return True
+
+    def get_product_number(self, block):
+        block_data = block.transactions[0]
+        wholesaler_details = block_data['Wholesaler Details']
+        return wholesaler_details['product_Number']
+
 
     @staticmethod
     def proof_of_work(block):
@@ -150,6 +161,71 @@ peers = set()
 
 # endpoint to submit a new transaction. This will be used by
 # our application to add new data (posts) to the blockchain
+@app.route('/new_farmer_transaction', methods=['POST'])
+def new_farmer_transaction():
+    tx_data = request.get_json()
+    farmer_ID, content, transaction_ID = tx_data['Farmer_ID'], tx_data['content'], tx_data['transaction_ID']
+    f = models.Farmer(transaction_ID = transaction_ID, farmer_ID = farmer_ID, details = content)
+    print(f)
+    db.session.add(f)
+    db.session.commit()
+    print(models.Farmer.query.all())
+    return "Success", 201
+
+@app.route('/new_refiner_transaction', methods=['POST'])
+def new_refiner_transaction():
+    tx_data = request.get_json()
+    refiner_ID, content, transaction_ID = tx_data['Refiner_ID'], tx_data['content'], tx_data['transaction_ID']
+    r = models.Refiner(transaction_ID = transaction_ID, refiner_ID = refiner_ID, details = content)
+    print(r)
+    db.session.add(r)
+    db.session.commit()
+    print(models.Refiner.query.all())
+    return "Success", 201
+
+@app.route('/new_wholesaler_transaction', methods=['POST'])
+def new_wholesaler_transaction():
+    tx_data = request.get_json()
+    wholesaler_ID, content, transaction_ID, product_Number = tx_data['WholeSaler_ID'], tx_data['content'], tx_data['transaction_ID'], tx_data['product_Number']
+    w = models.Wholesaler(transaction_ID = transaction_ID, Wholesaler_ID = wholesaler_ID, details = content, product_Number = product_Number)
+    print(w)
+    db.session.add(w)
+    db.session.commit()
+    print(models.Wholesaler.query.all())
+    generate_block(transaction_ID)
+    return "Success", 201
+
+def generate_block(transaction_ID):
+    farmer_details = {}
+    refiner_details = {}
+    wholesaler_details = {}
+    tx_data = {}
+
+    f = models.Farmer.query.filter_by(transaction_ID = transaction_ID).first()
+    print(f)
+    farmer_details['farmer_ID'] = f.farmer_ID 
+    farmer_details['content'] = f.details
+
+    r = models.Refiner.query.filter_by(transaction_ID = transaction_ID).first()
+    print(r)
+    refiner_details['refiner_ID'] = r.refiner_ID 
+    refiner_details['content'] = r.details
+
+    w = models.Wholesaler.query.filter_by(transaction_ID = transaction_ID).first()
+    print(w)
+    wholesaler_details['wholesaler_ID'] = w.Wholesaler_ID
+    wholesaler_details['content'] = w.details
+    wholesaler_details['product_Number'] = w.product_Number
+
+    tx_data['Transaction ID'] = transaction_ID
+    tx_data['Farmer Details'] = farmer_details
+    tx_data['Refiner Details'] = refiner_details
+    tx_data['Wholesaler Details'] = wholesaler_details
+    tx_data['Timestamp'] = time.time()
+    print(tx_data)
+    blockchain.add_new_transaction(tx_data)
+    mine_unconfirmed_transactions()
+
 @app.route('/new_transaction', methods=['POST'])
 def new_transaction():
     tx_data = request.get_json()
@@ -157,7 +233,7 @@ def new_transaction():
 
     for field in required_fields:
         if not tx_data.get(field):
-            return "Invalid transaction data", 404
+            return "Invalid transaction data" + str(tx_data.get(field)), 404
 
     tx_data["timestamp"] = time.time()
 
@@ -165,6 +241,26 @@ def new_transaction():
 
     return "Success", 201
 
+@app.route('/fetch_product', methods=['GET'])
+def fetch_product():
+    # print(request.args)
+    product_id = request.args.get('product_id')
+    print(models.Product.query.all())
+    p = models.Product.query.filter_by(product_id = product_id).first()
+    if not p.chain_index:
+        return 'invalid product number'
+    index = int(p.chain_index)
+    print(index)
+    print(p.product_id)
+    block = blockchain.chain[index]
+    print(block.transactions)
+    return 'success'
+
+@app.route('/testing', methods=['GET'])
+def testing():
+    # product_id = request.args.get('product_id')
+    # print(product_id)
+    return 'success'
 
 # endpoint to return the node's copy of the chain.
 # Our application will be using this endpoint to query
