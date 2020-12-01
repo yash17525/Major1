@@ -2,79 +2,101 @@
 {% extends "base.html" %}
 
 {% block content %}
-	<br>
+<br>
 
-	<center>
+<center>
 	<form action="/submitRefiner" id="textform" method="post">
-	    <textarea name="content" rows="4" cols="50" placeholder="Enter Crop Processing Details"></textarea>
-	    <br>
-	    <input type="text" name="refiner_ID" placeholder="Refiner ID">
-	    <input type="submit" value="Post">
+		<textarea name="content" rows="4" cols="50" placeholder="Enter Crop Processing Details" class='myBox'></textarea>
+		<br>
+		<input type="text" name="refiner_ID" placeholder="Refiner ID" class='myBox'>
+		<input type="submit" value="Post">
 	</form>
-	</center>
-	<div style="margin: 20px;">
+</center>
+<div style="margin: 20px;">
 
 	<style>
 		.post_box {
-		    background: #fff;
-		    padding: 12px 0px 0px 12px;
-		    margin-top: 0px;
-		    margin-bottom: 8px;
-		    border-top: 1px solid #f0f0f0;
+			background: #fff;
+			padding: 12px 0px 0px 12px;
+			margin-top: 0px;
+			margin-bottom: 8px;
+			border-top: 1px solid #f0f0f0;
 		}
 
+		.myBox {
+			font-size: 1em;
+			border: 2.5px solid #1B8EB9;
+			padding: 6px;
+			font-weight: 300;
+			box-sizing: border-box;
+			text-indent: 6px;
+			-webkit-box-shadow: inset 1px 0px 0px -1px #404040;
+			box-shadow: inset 1px 0px 0px -1px #404040;
+			transition: box-shadow 0.2s, border 0.2s, color 0.2s, background 0.2s;
+			width: 250px;
+			background: linear-gradient(white, white 50%, #333 50%, #333);
+			background-size: 100% 202%;
+		}
+
+		.myBox:focus {
+			color: white;
+			background-position: 100% 100%;
+		}
+
+
 		.post_box-header {
-		    padding-bottom: 12px;
+			padding-bottom: 12px;
 		}
 
 		.post_box-avatar {
-		    width: 38px;
-		    height: 38px;
-		    border-radius: 50%;
-		    display: flex;
-		    justify-content: center;
-		    align-items: center;
-		    color: white;
-		    font-size: 22px;
-		    float: left;
-		    margin-right: 16px;
-		    border: 1px solid #fff;
-		    box-shadow: 0px 0px 0px 2px #f00;
+			width: 38px;
+			height: 38px;
+			border-radius: 50%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			color: white;
+			font-size: 22px;
+			float: left;
+			margin-right: 16px;
+			border: 1px solid #fff;
+			box-shadow: 0px 0px 0px 2px #f00;
 		}
 
 		.post_box-avatar::after {
-		    content:"";
-		    display:block;
+			content: "";
+			display: block;
 		}
 
 		.post_box-name {
-		    font-weight: bold;
+			font-weight: bold;
 		}
 
 		.post_box-subtitle {
-		    color: #777;
+			color: #777;
 		}
 
 		.post_box-body {
-		    margin-top: 16px;
-		    margin-bottom: 8px;
+			margin-top: 16px;
+			margin-bottom: 8px;
 		}
 
 		.post_box-options {
-		    float: right;
+			float: right;
 		}
+
 		.option-btn {
-		    background: #f8f8f8;
-		    border: none;
-		    color: #2c3e50;
-		    padding: 7px;
-		    cursor: pointer;
-		    font-size: 14px;
-		    margin-left: 2px;
-		    margin-right: 2px;
-		    outline: none;
-		    height: 42px;
+			background: #f8f8f8;
+			border: none;
+			color: #2c3e50;
+			padding: 7px;
+			cursor: pointer;
+			font-size: 14px;
+			margin-left: 2px;
+			margin-right: 2px;
+			outline: none;
+			height: 42px;
 		}
 	</style>
-    </div>
+</div>
 {% endblock %}
