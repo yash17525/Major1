@@ -5,12 +5,9 @@
 	<br>
 
 	<center>
-	<form action="/submitRefiner" id="textform" method="post">
-	    <textarea name="content" rows="4" cols="50" placeholder="Enter Crop Processing Details"></textarea>
-	    <br>
-	    <input type="text" name="refiner_ID" placeholder="Refiner ID">
-	    <input type="text" name="transaction_ID" placeholder="Transaction ID">
-	    <input type="submit" value="Post">
+	<form action="/product_fetch" id="textform" method="post">
+	    <input type="text" name="product_id" placeholder="Enter Product Number">
+	    <input type="submit" value="Submit">
 	</form>
 	</center>
 	<div style="margin: 20px;">
@@ -20,6 +17,7 @@
 		    background: #fff;
 		    padding: 12px 0px 0px 12px;
 		    margin-top: 0px;
+
 		    margin-bottom: 8px;
 		    border-top: 1px solid #f0f0f0;
 		}
