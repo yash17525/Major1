@@ -247,6 +247,7 @@ def fetch_product():
     product_id = request.args.get('product_id')
     print(models.Product.query.all())
     p = models.Product.query.filter_by(product_id = product_id).first()
+    print(p)
     if not p.chain_index:
         return 'invalid product number'
     index = int(p.chain_index)
@@ -254,7 +255,23 @@ def fetch_product():
     print(p.product_id)
     block = blockchain.chain[index]
     print(block.transactions)
-    return 'success'
+    print(block.transactions[0]['Transaction ID'])
+    return f'<h1>Transaction ID : {block.transactions[0]["Transaction ID"]}</h1>\
+            <h2>Farmer Details </h2>\
+            <ul>\
+                <li>Farmer ID: {block.transactions[0]["Farmer Details"]["farmer_ID"]}</li>\
+                <li>Content : {block.transactions[0]["Farmer Details"]["content"]}</li>\
+            </ul><h2>Refiner Details </h2>\
+            <ul>\
+                <li>Refiner ID: {block.transactions[0]["Refiner Details"]["refiner_ID"]}</li>\
+                <li>Content : {block.transactions[0]["Refiner Details"]["content"]}</li>\
+            </ul><h2>Wholesaler Details </h2>\
+            <ul>\
+                <li>Wholesaler ID: {block.transactions[0]["Wholesaler Details"]["wholesaler_ID"]}</li>\
+                <li>Content : {block.transactions[0]["Wholesaler Details"]["content"]}</li>\
+                <li>Product Number : {block.transactions[0]["Wholesaler Details"]["product_Number"]}</li>\
+            </ul>\
+            <h2>Timestamp : {block.transactions[0]["Timestamp"]}</h2>'
 
 @app.route('/testing', methods=['GET'])
 def testing():
