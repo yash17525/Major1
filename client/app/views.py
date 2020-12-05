@@ -178,14 +178,16 @@ def submitWholeSaler():
     return redirect('/')
 
 
-@app.route('/product_fetch', methods=['GET'])
+@app.route('/product_fetch', methods=['GET','POST'])
 def product_fetch():
     product_id = request.form['product_id']
+    print(product_id)
     url = "{}/fetch_product".format(CONNECTED_NODE_ADDRESS)
+    print(url)
     response = requests.get(url, params={'product_id': product_id})
     # response = requests.get(url)
     print(response.text)
-    return redirect('/')
+    return response.text
 
 
     # if response.status_code == 200:
