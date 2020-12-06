@@ -1,0 +1,50 @@
+<!-- extend base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+<center>
+    <div class="bg">
+      <div class="innerdiv">
+          <!-- <h2>My Name is : {{val}}</h2> -->
+        <h1>Transaction ID : {{Transaction_ID}}</h1>
+        <h2>Farmer Details </h2>
+        <ul>
+          <li>Farmer ID: {{Farmer_ID}}</li>
+          <li>Content : {{FarmerContent}}</li>
+        </ul>
+        <h2>Refiner Details </h2>
+        <ul>
+          <li>Refiner ID: {{Refiner_ID}}</li>
+          <li>Content : {{RefinerContent}}</li>
+        </ul>
+        <h2>Wholesaler Details </h2>
+        <ul>
+          <li>Wholesaler ID: {{Wholesaler_ID}}</li>
+          <li>Content : {{WholesalerContent}}</li>
+          <li>Product Number : {{ProductNumber}}</li>
+        </ul>
+        <h2>Timestamp : {{timestamp}}</h2>
+      </div>
+  
+      </div>
+  </center>
+
+  <style>
+      body{
+  height: 100vh;
+  background-color: #4158D0;
+background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+}
+  bg{
+    height: 100vh;
+    <!-- background-color: #4158D0;
+ background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%); -->
+ <!-- margin-top:10px; -->
+  }
+  innerdiv{
+    <!-- background-color: #4158D0;
+ background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%); -->
+    margin-top:10%;
+  }
+  </style>
+{% endblock %}
