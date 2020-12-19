@@ -2,5 +2,5 @@
 **/*.pyc
 venv/
 .vscode
-migrations/
+server/migrations/
 server/app.db
