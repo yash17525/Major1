@@ -1,8 +1,9 @@
 from hashlib import sha256
 import json
 import time
-
-from flask import Flask, request
+import datetime
+from datetime import datetime
+from flask import Flask, request, render_template
 import requests
 
 from api import app, db
@@ -248,6 +249,9 @@ def fetch_product():
     print(models.Product.query.all())
     p = models.Product.query.filter_by(product_id = product_id).first()
     print(p)
+    testvar="yuvraj"
+    # return render_template('result.html',
+    #                        title='Product Details',val=testvar)
     if not p.chain_index:
         return 'invalid product number'
     index = int(p.chain_index)
@@ -256,22 +260,22 @@ def fetch_product():
     block = blockchain.chain[index]
     print(block.transactions)
     print(block.transactions[0]['Transaction ID'])
-    return f'<h1>Transaction ID : {block.transactions[0]["Transaction ID"]}</h1>\
-            <h2>Farmer Details </h2>\
-            <ul>\
-                <li>Farmer ID: {block.transactions[0]["Farmer Details"]["farmer_ID"]}</li>\
-                <li>Content : {block.transactions[0]["Farmer Details"]["content"]}</li>\
-            </ul><h2>Refiner Details </h2>\
-            <ul>\
-                <li>Refiner ID: {block.transactions[0]["Refiner Details"]["refiner_ID"]}</li>\
-                <li>Content : {block.transactions[0]["Refiner Details"]["content"]}</li>\
-            </ul><h2>Wholesaler Details </h2>\
-            <ul>\
-                <li>Wholesaler ID: {block.transactions[0]["Wholesaler Details"]["wholesaler_ID"]}</li>\
-                <li>Content : {block.transactions[0]["Wholesaler Details"]["content"]}</li>\
-                <li>Product Number : {block.transactions[0]["Wholesaler Details"]["product_Number"]}</li>\
-            </ul>\
-            <h2>Timestamp : {block.transactions[0]["Timestamp"]}</h2>'
+    Transaction_ID=block.transactions[0]["Transaction ID"]
+    Farmer_ID=block.transactions[0]["Farmer Details"]["farmer_ID"]
+    FarmerContent=block.transactions[0]["Farmer Details"]["content"]
+    Refiner_ID=block.transactions[0]["Refiner Details"]["refiner_ID"]
+    RefinerContent=block.transactions[0]["Refiner Details"]["content"]
+    Wholesaler_ID=block.transactions[0]["Wholesaler Details"]["wholesaler_ID"]
+    WholesalerContent=block.transactions[0]["Wholesaler Details"]["content"]
+    ProductNumber=block.transactions[0]["Wholesaler Details"]["product_Number"]
+    timestamp=block.transactions[0]["Timestamp"]
+    dt_object = datetime.fromtimestamp(timestamp)
+    currdatetime=dt_object.strftime("%m/%d/%Y, %H:%M:%S")
+    return render_template('result.html',
+                           title='Product Details',Transaction_ID=Transaction_ID,Farmer_ID=Farmer_ID,FarmerContent=FarmerContent,
+                           Refiner_ID=Refiner_ID,RefinerContent=RefinerContent,Wholesaler_ID=Wholesaler_ID,WholesalerContent=WholesalerContent,
+                           ProductNumber=ProductNumber,timestamp=currdatetime)
+    
 
 @app.route('/testing', methods=['GET'])
 def testing():

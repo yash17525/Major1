@@ -1,0 +1,12 @@
+body{
+			background: rgb(0,176,155);
+/* background: linear-gradient(0deg, rgba(0,176,155,1) 0%, rgba(150,201,61,1) 100%); */
+		  /* background: url(bg.jpg) no-repeat center center fixed;
+		  -webkit-background-size: cover;
+		  -moz-background-size: cover;
+		  -o-background-size: cover;
+		  background-size: cover; */
+		}
+h5{
+	color: green;
+}
