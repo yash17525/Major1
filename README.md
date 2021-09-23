@@ -1,6 +1,15 @@
 # Blockchain in food-supply-chain
-
-A simple tutorial for developing a blockchain application from scratch in Python.
+Blockchain is an emerging digital technology allowing ubiquitous financial
+transactions among distributed untrusted parties, without the need of
+intermediaries such as banks. This article examines the impact of blockchain
+technology in agriculture and food supply chain, presents existing ongoing
+projects and initiatives, and discusses overall implications, challenges and
+potential, with a critical view over the maturity of these projects. Our findings
+indicate that blockchain is a promising technology towards a transparent
+supply chain of food, with many ongoing initiatives in various food products
+and food-related issues, but many barriers and challenges still exist, which
+hinder its wider popularity among farmers and systems. These challenges
+involve technical aspects, education, policies and regulatory frameworks
 
 ## What is blockchain? How it is implemented? And how it works?
 
